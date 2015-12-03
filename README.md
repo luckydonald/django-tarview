@@ -1,7 +1,8 @@
 Django TarView
 ==============
 
-A base view to tar and stream several files.
+A simple Django base view to stream file-like-objects as .tar archive.
+Python 3 ready.
 
 Installation
 ------------
