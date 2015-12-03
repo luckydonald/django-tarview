@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 from django.core.files.base import ContentFile
 
+import platform
 import os
 import tarfile
 
@@ -12,6 +13,8 @@ from django.http import HttpResponse
 from django.test.client import RequestFactory
 
 from tarview.views import BaseTarView
+
+name = "/tmp/test%s.tar" % platform.python_version()
 
 
 class TarView(BaseTarView):
@@ -45,19 +48,21 @@ class TarViewTests(TestCase):
 
     def test_response_content_length(self):
         response = self.view.get(self.request)
-        self.assertEqual(response['Content-Length'], '10240')  # measured manually with Finder.
+        if platform.python_version() < "3":
+            self.assertEqual(response['Content-Length'], '30720')  # measured manually with Finder.
+        else:
+            self.assertEqual(response['Content-Length'], '10240')  # measured manually with Finder.
 
     def test_valid_tarfile(self):
         response = self.view.get(self.request)
-        with open("/tmp/test.tar", mode="wb") as file:
+        with open(name, mode="wb") as file:
             file.write(response.content)
-        response_file = ContentFile(response.content, name="test.tar")
-        self.assertTrue(tarfile.is_tarfile("/tmp/test.tar"))
+        response_file = ContentFile(response.content, name=name)
+        self.assertTrue(tarfile.is_tarfile(name))
         tar_file = tarfile.TarFile(fileobj=response_file)
         self.assertEqual(tar_file.getnames(), ['test_file.txt', 'test_file.odt', 'test_file_manual.txt'])
 
     def tearDown(self):
-        import os
-        if os.path.exists("/tmp/test.tar"):
-            os.unlink("/tmp/test.tar")
+        if os.path.exists(name):
+            os.unlink(name)
         pass
