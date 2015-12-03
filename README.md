@@ -1,7 +1,7 @@
-Django TarView
+Django TarView 
 ==============
 
-A simple Django base view to stream file-like-objects as .tar archive.
+A simple Django base view to stream file-like-objects as .tar archive. [![Build Status](https://travis-ci.org/luckydonald/django-tarview.svg)](https://travis-ci.org/luckydonald/django-tarview)
 Python 3 ready.
 
 Installation
