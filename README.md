@@ -14,7 +14,7 @@ Usage and examples
 
 To create a tar download view:
 
- * Extend BaseTarView
+ * Extend `BaseTarView`
  * implement `get_files`
  * That's it
 
@@ -23,8 +23,11 @@ The `get_files` method must return a list (or iterator) of file-like objects.
 Example with a ContentFile:
 
 
-```
+```python
 from tarview.views import BaseTarView
+
+from django.core.files.base import ContentFile
+from django.utils.six import b  # or use b"foo" instead.
 
 class JustTextFilesView(BaseTarView):
     """
