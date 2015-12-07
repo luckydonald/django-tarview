@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
-from django.core.files.base import ContentFile
 
 import platform
 import os
@@ -11,10 +10,13 @@ from django.test import TestCase
 from django.core.files import File
 from django.http import HttpResponse
 from django.test.client import RequestFactory
+from django.core.files.base import ContentFile
+from django import get_version as django_version
 
 from tarview.views import BaseTarView
 
-name = "/tmp/test%s.tar" % platform.python_version()
+delete_zip = True  # if you want to check them manually
+name = "/tmp/test_py-%s_dj-%s.tar" % (platform.python_version(),django_version())
 
 
 class TarView(BaseTarView):
@@ -63,6 +65,6 @@ class TarViewTests(TestCase):
         self.assertEqual(tar_file.getnames(), ['test_file.txt', 'test_file.odt', 'test_file_manual.txt'])
 
     def tearDown(self):
-        if os.path.exists(name):
+        if os.path.exists(name) and delete_zip:
             os.unlink(name)
         pass
