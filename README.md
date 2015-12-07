@@ -1,7 +1,7 @@
 Django TarView 
 ==============
 
-[![Build Status](https://travis-ci.org/luckydonald/django-tarview.svg)](https://travis-ci.org/luckydonald/django-tarview)    
+[![Build Status](https://travis-ci.org/luckydonald/django-tarview.svg)](https://travis-ci.org/luckydonald/django-tarview)[![On PyPI](https://img.shields.io/pypi/v/django-tarview.svg)](https://pypi.python.org/pypi/django-tarview)    
 A simple Django base view to stream file-like-objects as .tar archive.    
 Python 2.7 and 3 ready.
 
